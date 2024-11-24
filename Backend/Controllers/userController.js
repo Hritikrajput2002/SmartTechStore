@@ -20,7 +20,12 @@ exports.createUser=async(req,res)=>{
             user_id:newUser.id
         }
         const token=jsonwebtoken.sign(data,process.env.JWT_key, { expiresIn: '1h' })
-        return res.status(200).json(token)
+        return res.cookie('token',token, {
+            httpOnly: true,
+            secure: true,     // Set to true if using HTTPS in production
+            sameSite: 'none', 
+            maxAge: 3600000
+        }).status(200).json("token generated")
     }
     catch{
         res.status(400).json("internal server error")
@@ -43,11 +48,12 @@ exports.loginUser=async(req,res)=>{
           user_id:user.id
         }
         const token=jsonwebtoken.sign(data,process.env.JWT_key, { expiresIn: '1h' })
-        return res.status(200).cookie('token',token, {
+        return res.cookie('token',token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure:true,     // Set to true if using HTTPS in production
+            sameSite: 'none', 
             maxAge: 3600000
-        }).json(token)
+        }).status(200).json("token generated")
     }
      catch{
         res.status(400).json("internal server error")
@@ -59,12 +65,30 @@ exports.loginUser=async(req,res)=>{
 //logout user
 
 exports.logoutUser=(req,res)=>{
-    res.cookie('token',null, {
+    return res.cookie('token','', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
+        sameSite: 'none', 
         maxAge: 0
     }).status(200).json({success:true,message:"successfully logged out"})
 }
+
+
+//is loginned
+exports.islogined=async(req,res)=>{
+    const { token } = req.cookies;
+    if (!token) {
+        return res.status(200).json({ success: false });
+    }
+    try {
+        const data = await jsonwebtoken.verify(token, process.env.JWT_key);
+        return res.status(200).json({ success: true });
+    } catch (error) {
+        console.error("Token verification failed:", error);
+        return res.status(401).json({ success: false, message: "Invalid or expired token" });
+    }
+}
+
 
 
 //forgotpassword 
@@ -83,7 +107,7 @@ exports.forgotPassword=async(req,res)=>{
     user.resetpasswordexpire=Date.now() +  15*60*1000 
     await user.save({ validateBeforeSave: false });
     
-    const resetpasswordUrl=`http://localhost:5000/api/v1/user/resetpassword/${encodedToken}`
+    const resetpasswordUrl=`http://localhost:3000/resetpassword/${encodedToken}`
     const message=` Your reset password link is :- \n\n ${resetpasswordUrl} \n\n If not requested then, ignore` 
     
     try{
@@ -132,7 +156,7 @@ exports.resetPassword=async(req,res)=>{
 //user details
 
 exports.userDetails=async(req,res)=>{
-    const user=await User.findById(req.user);
+    const user=await User.findById(req.user).select('-password');
     if(!user) return res.status(401).json({error:"user not found"})
     return  res.status(201).json(user)
 }
@@ -201,3 +225,91 @@ exports.deleteUser=async(req,res)=>{
 }
 
 
+
+//add to cart
+exports.addtocart=async(req,res)=>{
+    const {quantity}=req.body
+    const productid=req.params.id
+    
+    if(quantity <= 0) {
+        return res.status(400).json({ success: false, message: "Quantity must be greater than 0" });
+      }
+
+    let user=await User.findById(req.user)
+    if(!user){
+          return res.status(400).json("user cant be reached at the moment")       
+    }
+    if (!Array.isArray(user.cartitems)) {
+        user.cartitems = [];
+      }
+    const isadded=await user.cartitems.find(rev=> rev.productid.toString()===productid.toString())
+    if(isadded){
+            user.cartitems.forEach(rev => {
+                   if(rev.productid.toString()===productid.toString()) {
+                    rev.quantity=Number(rev.quantity)+Number(quantity)
+                   }
+            });    
+    }else{
+            user.cartitems.push({
+                productid:productid,
+                quantity:quantity
+                
+    })
+}
+ await user.save()
+
+
+    return res.status(200).json({
+            success:"true",
+            desc:"product added to cart"
+    })
+}
+
+
+
+
+//show cart
+exports.showcart=async(req,res)=>{
+    const user=await User.findById(req.user)
+
+    if(!user){
+            return res.status(401).json({ error:"user not found "})      
+    }
+    return res.status(201).json(user.cartitems)      
+    
+}
+
+
+//edit cart
+exports.editcart=async(req,res)=>{
+    const {quantity}=req.body
+    const productid=req.params.id
+    
+    if(quantity < 0) {
+        return res.status(400).json({ success: false, message: "Quantity must be greater than 0" });
+      }
+
+    let user=await User.findById(req.user)
+    if(!user){
+          return res.status(400).json("user cant be reached at the moment")       
+    }
+  
+    if(quantity==0){
+        user.cartitems = user.cartitems.filter(rev => rev.productid.toString() !== productid.toString());
+    } 
+    else{
+        user.cartitems.forEach(rev => {
+            if(rev.productid.toString()===productid.toString()) {
+            rev.quantity=Number(quantity)
+            }
+    }); 
+    } 
+
+ await user.save()
+
+
+    return res.status(200).json({
+            success:"true",
+            desc:"cart product edited "
+    })
+}

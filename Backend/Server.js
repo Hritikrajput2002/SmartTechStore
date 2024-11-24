@@ -9,13 +9,17 @@ const user=require('./Routes/userRoutes.js')
 const order=require('./Routes/orderRoutes.js')
 const cookieParser = require('cookie-parser');
 
-
+app.use(cookieParser());
 
 
 //middlewares
-app.use(cors());
+app.use(cors({
+   origin: 'http://localhost:3000',
+   credentials: true,
+}));
+
 app.use(express.json());
-app.use(cookieParser());
+
 
 //connecting to database
 connectToDatabase()

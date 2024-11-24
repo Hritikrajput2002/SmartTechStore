@@ -1,0 +1,34 @@
+.homesection{
+         height:'100vh';
+         width:"100%";
+         margin-bottom:50px;
+}
+
+.productbox{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+    padding-left:50px;
+    align-items: center;
+    margin-left: 10vh;
+}     
+
+.proheading{
+    border-bottom:3px solid  gray ;
+    padding:5px;
+    color:red;
+    width:200px;
+    text-align: center;
+    margin:auto;
+    margin-bottom: 50px;
+}
+
+.productitems{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:30px
+
+}
+

@@ -1,0 +1,263 @@
+.profilemain{
+    width:100%;
+    height:100vh;
+    overflow: visible;
+}
+
+.homelink {
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #a7a5a5;
+    padding: 10px;
+    color:rgb(46, 41, 122);
+  }
+
+  .homelink a {
+    display: flex;
+    align-items: center;
+    color: #000;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: 20px;
+    font-size: larger;
+    padding-right: 5px;
+  }
+  .homelink a:hover{
+    font-size:18px;
+  }
+
+
+
+.profileleft{
+    width:50%;
+    background-color: rgb(210, 226, 228);
+    height:90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profilepic{
+    background-color: rgb(220, 225, 223);
+    border-radius: 50%;
+    height:55vh;
+    width:55vh;
+    margin-top: 40px;
+}
+.profilepic >img{
+    border-radius: 50%;
+    height:55vh;
+    width:55vh;
+} 
+.editprofile{
+    margin-top: 45px;
+    width:27vh;
+    height:5vh;
+    font-weight: 500;
+    font-size: larger;
+    border: 1px solid rgb(193, 181, 181);
+    color: white;
+    /* button is styled due its subclass  */
+
+}
+
+.profileright{
+    width:70%;
+    background-color: rgb(193, 214, 222);
+    height:90vh; 
+    padding:110px;
+    padding-top: 80px;
+
+}
+.name > p{
+    font-size: 35px;
+    font-weight: 500;
+    margin-bottom: 0px;
+
+}
+.name > span{
+    font-size: 19px;
+    font-weight: 400;
+    margin-left: 3px;
+}
+.email > p{
+    font-size: 35px;
+    font-weight: 500;
+    margin-bottom: 0px;
+    margin-top: 30px;
+
+}
+.email > span{
+    font-size: 19px;
+    font-weight: 400;
+    margin-left: 3px;
+
+}
+.createdat > p{
+    font-size: 35px;
+    font-weight: 500;
+    margin-bottom: 0px;
+    margin-top: 30px;
+
+}
+.createdat > span{
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 3px;
+
+}
+
+.orders{
+     background-color:  tomato;
+    margin-top: 60px;
+    width:39vh;
+    height:5vh;
+    font-weight: 500;
+    font-size: larger;
+    border: 1px solid rgb(193, 181, 181);
+    color: white;
+    text-align:center;
+    padding:3px;
+
+}
+.changepassword{
+    background-color:  tomato;
+    margin-top: 45px;
+    width:39vh;
+    height:5vh;
+    font-weight: 500;
+    font-size: larger;
+    border: 1px solid rgb(193, 181, 181);
+    color: white;
+    text-align:center;
+    padding:3px;
+}
+
+
+.editprofilemodal{
+     position: 'absolute';
+     top: 50%;
+     left: 50%;
+     transform: translate(10%, 30%); 
+     width: 500px;
+     background:#ffffff;
+     box-shadow: 24; 
+     padding: 20px;
+     border-radius: 10px; 
+}
+
+
+.refreshbutton{
+  
+}
+
+
+.profilerightbuttons{
+    display:flex;
+    flex-direction: column;
+}
+
+
+.modaltopcs{
+    display: flex;
+    flex-direction: row;
+}
+
+.cartmain{
+    background-color: #e5e2e2;
+}
+
+.cartitemscontainer{
+   background-color: rgb(218, 221, 221);
+   width: 65%;
+   height:90vh;
+   padding-left:20px;
+   padding-top: 20px;
+   overflow: scroll;
+   padding-right: 20px;
+}
+.cartitemscontainer::-webkit-scrollbar {
+    display: none; 
+  }
+.cartitemheader{
+    background-color: tomato;
+    color:white;
+    height:46px;
+    padding:2px;
+    align-items: center;
+    padding-left: 50px;
+    
+}
+.cartitemheaderProduct{
+    margin-right: auto;
+}
+.cartitemheaderQuantity{
+
+}
+.cartitemheaderSubtotal{
+    margin-right:20px;
+    margin-left: 30vh;
+}
+.cartitem{
+    padding:4px;
+    padding-left: 10px;
+    padding-top: 0px;
+}
+.cartitembox{
+    align-items: center;
+    border:1px solid rgb(201, 200, 200);
+    border-radius: 5px;
+}
+.cartitemdesc {
+    padding:5px;
+    margin-right: auto;
+    margin-left: 8px;
+}
+.cartitemdesc >h3 {
+    
+}
+.cartitemdesc >p {
+    font-weight:500;
+}
+.cartitemtprice{
+    font-weight:600;
+    font-size: larger;
+    margin-right:20px;
+    margin-left: 30vh;
+}
+.cardnoitem{
+    width:100%;
+    height:60vh;
+    text-align: center;
+}
+
+
+.pricetotalbox{
+    width:30%;
+    background-color: rgb(223, 221, 218);
+    height:35vh;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: 20px;
+    border:1px solid rgb(215, 213, 213);
+
+    
+    
+}
+.priceboxheading{
+    background-color: tomato;
+    color:white;
+    height: 46px;
+    padding:7px;
+}
+.priceitems{
+}
+.priceboxvalue{
+    display: flex;
+    padding:10px;
+    border:1px solid rgb(219, 213, 213);
+    margin:5px;
+}

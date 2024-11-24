@@ -38,20 +38,25 @@ exports.getAllProducts=async(req,res)=>{
      
         //searching by price range
         if(req.query.pricegt ||req.query.pricelt) query.price={  $gte:req.query.pricegt,  $lte:req.query.pricelt}
+
+        // for rating
+        if(req.query.rating ) query.rating={  $gte:req.query.rating}
+
         
 
         let product=await Product.find(query)
 
         //pagination
+         const itemperPage=4
+         const totalproduct=product.length
         if(req.query.page){
-                const itemperPage=2
-                const totalproduct=product.length
+                
                 const ll=(req.query.page-1)*itemperPage
                 const ul=ll+itemperPage
                 product=product.slice(ll,ul)
         }
 
-        return res.status(200).json(product)
+        return res.status(200).json({totalresults:totalproduct,resultperpage:itemperPage,products:product})
 }
 
 
@@ -109,6 +114,7 @@ exports.addReview=async(req,res)=>{
         if(isReviewed){
                 product.review.forEach(rev => {
                        if(rev.user.toString()===req.user.toString()) {
+                        rev.name=name,
                         rev.comment=comment
                         rev.rating=rating
                        }
@@ -177,6 +183,9 @@ exports.deleteReview=async(req,res)=>{
         })
 
 }
+
+
+
 
 
 

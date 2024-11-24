@@ -29,6 +29,19 @@ const userSchema=mongoose.Schema({
             required:true
         }
     },
+    cartitems:[
+        { 
+          productid:{
+            type:mongoose.Schema.ObjectId,
+            ref:"product",
+            required:true
+         },
+         quantity:{
+            type:Number,
+            required:true
+         }
+        }
+        ],
     role:{
         type:String,
         default:"user"
@@ -38,6 +51,10 @@ const userSchema=mongoose.Schema({
     },
     resetpasswordexpire:{
         type:Date
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
     }
 })
 

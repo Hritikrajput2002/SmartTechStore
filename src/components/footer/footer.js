@@ -4,7 +4,7 @@ import './footer.css'
 const Footer = () => {
   return (
     <> 
-        <div classname="d-flex justify-content-center ">
+        <div className="d-flex justify-content-center ">
         <div className="footer container">
             <div className="footerid1">
                        <div>
